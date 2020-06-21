@@ -1,28 +1,114 @@
 import time
 
+player = ["name_ph", 0, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "pronoun_ph", 0, [0, 0, 0, 0, 0, 0]]
+# [name 0, lvl 1, inventory 2, pronoun to be called 3
+# difficulty 4, stats 5]
 
-def mainMenu():
+answer_dict = {
+    "yes": ("yeah", "yep", "sure", "okey-dokey", "alright", "fine", "absolutely", "yah"),
+    "no": ("nope", "nah", "naw", "nae", "never", "no way"),
+    "male": ("man", "men", "boy", "masculine"),
+    "female": ("woman", "women", "girl", "feminine")
+}
+
+
+def main_menu():
     answer = ""
     while answer != 'd':
-        print_slow("### -- Welcome to a_Game -- ###\n(a)New Game\t(b)Load Game\n(c)Options\t(d)Terminate Game\n")
+        print_slow(
+            "### -- Welcome to a_Game -- ###\n\n"
+            "(a)New Game\t(b)Load Game\n(c)Options\t(d)Terminate Game\n\n"
+            "### -- Welcome to a_Game -- ###\n")
         answer = input("Your action: ")
+        answer.lower()
         if answer == 'a':
-            newGame()
+            new_game()
         elif answer == 'b':
-            break #something else
+            break  # something
         elif answer == 'c':
-            break #something else else
+            break  # something
         elif answer == 'd':
+            print("\nThe End\n")
             return 0
 
-def newGame():
-    print("")
+
+def new_game():
+    print_slow("Hmm, I see... you're new around here aren't you?\n"
+               "It's okay, you'll get the hang of it.\n"
+               "Well, so... what's your name?\n")
+    answer1 = input("Your answer: ")
+    if does_player_exist(answer1) == 1:
+        print_slow("Hey! You're already in the game, do you want to log in to this char?\n")
+        answer2 = input("Your answer: ")
+        i = 0
+        while i == 0:
+            if answer2 == "yes":
+                load_game(answer1)
+                i += 1
+
+            elif answer2 == "no":
+                print_slow("Okay, so what's gonna be your new name?\n")
+                answer = input("Your answer: ")
+                if does_player_exist(answer) == 1:
+                    print_slow("You think you\'re funny huh\n"
+                               "OKAY " + answer.upper() + ", YOU SON OF A BITCH\nLET\'S GET THIS GOING\n")
+                    load_game(answer)
+                    player[4] = 3
+                    game()
+                    return
+                load_game(answer2)
+                i += 1
+
+    elif does_player_exist(answer1) == 0:
+        player[0] = answer1
+        player[1] = 1
+        print_slow("It seems you're not here alone like everyone else,\n"
+                   "that\'s odd...\nBut ok, let\'s get you started:\n"
+                   "Do you identify as a common gender?\n")
+        answer = input("Your answer: ")
+        answer.lower()
+        if answer == "yes":
+            print_slow("Umm, duh, the real question was: what is it, moron?\n")
+            answer = input("Your answer")
+            answer.lower()
+        if answer == "male":
+            print_slow("Oh yeah?\nTHEN FUCK YOU, DAMN CHAUVINIST\n"
+                       "Well umm anyway, do you have any experience with RPGs?\n")
+            difficulty = input("Your answer: ")
+
+        elif answer == "female":
+            print_slow("Okay, let\'s get you started.\n"
+                       "Do you have any experience in RPGs?\n")
+            difficulty = input("Your answer: ")
+        elif answer == "no":
+            print_slow("Okay, then let's-----------\n"
+                       "Wait, what? What do you mean no?\n...\n...\n"
+                       "You're weird\n"
+                       "Anyway. Do you have any experience with RPGs?\n")
+            difficulty = input("Your answer: ")
+        # TODO Finish character creation from difficulty setting part
 
 
-def print_slow(str):
-    for letter in str:
+def print_slow(str1):
+    for letter in str1:
         print(letter, end='')
-        time.sleep(.1)
+        time.sleep(.03)
 
 
-mainMenu()
+def load_game(name):  # TODO LOAD GAME
+    print("I would load now the game on the name of " + name + " but there really is no function yet so... sorry")
+
+
+def does_player_exist(player_name):  # TODO FILE FUNCTIONS
+    if player_name == "fred":
+        return 1
+    else:
+        return 0
+
+
+def game():
+    print_slow("Now this would be the actual game, still working on it\n")
+    return
+
+
+main_menu()
