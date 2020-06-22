@@ -8,7 +8,8 @@ answer_dict = {
     "yes": ("yeah", "yep", "sure", "okey-dokey", "alright", "fine", "absolutely", "yah"),
     "no": ("nope", "nah", "naw", "nae", "never", "no way"),
     "male": ("man", "men", "boy", "masculine"),
-    "female": ("woman", "women", "girl", "feminine")
+    "female": ("woman", "women", "girl", "feminine"),
+    "much": ("a lot", "huge amount", "a huge amount", "lots")
 }
 
 
@@ -33,6 +34,7 @@ def main_menu():
 
 
 def new_game():
+    difficulty = "ERROR"
     print_slow("Hmm, I see... you're new around here aren't you?\n"
                "It's okay, you'll get the hang of it.\n"
                "Well, so... what's your name?\n")
@@ -53,7 +55,7 @@ def new_game():
                     print_slow("You think you\'re funny huh\n"
                                "OKAY " + answer.upper() + ", YOU SON OF A BITCH\nLET\'S GET THIS GOING\n")
                     load_game(answer)
-                    player[4] = 3
+                    player[4] = 4
                     game()
                     return
                 load_game(answer2)
@@ -62,34 +64,68 @@ def new_game():
     elif does_player_exist(answer1) == 0:
         player[0] = answer1
         player[1] = 1
-        print_slow("It seems you're not here alone like everyone else,\n"
-                   "that\'s odd...\nBut ok, let\'s get you started:\n"
-                   "Do you identify as a common gender?\n")
-        answer = input("Your answer: ")
-        answer.lower()
-        if answer == "yes":
-            print_slow("Umm, duh, the real question was: what is it, moron?\n")
-            answer = input("Your answer")
+        i = 0
+        while i == 0:
+            print_slow("It seems you're not here alone like everyone else,\n"
+                       "that\'s odd...\nBut ok, let\'s get you started:\n"
+                       "Do you identify as a common gender?\n")
+            answer = input("Your answer: ")
             answer.lower()
-        if answer == "male":
-            print_slow("Oh yeah?\nTHEN FUCK YOU, DAMN CHAUVINIST\n"
-                       "Well umm anyway, do you have any experience with RPGs?\n")
-            difficulty = input("Your answer: ")
+            if answer == "yes":
+                print_slow("Umm, duh, the real question was: what is it, moron?\n")
+                answer = input("Your answer")
+                answer.lower()
+            if answer == "male":
+                player[3] = "he"
+                print_slow("Oh yeah?\nTHEN FUCK YOU, DAMN CHAUVINIST\n"
+                           "Well umm anyway, do you have any experience with RPGs?\n")
+                i += 1
+                difficulty = input("Your answer: ")
+                difficulty.lower()
+            elif answer == "female":
+                player[3] = "she"
+                print_slow("Okay, let\'s get you started.\n"
+                           "Do you have any experience in RPGs?\n")
+                i += 1
 
-        elif answer == "female":
-            print_slow("Okay, let\'s get you started.\n"
-                       "Do you have any experience in RPGs?\n")
-            difficulty = input("Your answer: ")
-        elif answer == "no":
-            print_slow("Okay, then let's-----------\n"
-                       "Wait, what? What do you mean no?\n...\n...\n"
-                       "You're weird\n"
-                       "Anyway. Do you have any experience with RPGs?\n")
-            difficulty = input("Your answer: ")
-        # TODO Finish character creation from difficulty setting part
+                difficulty = input("Your answer: ")
+                difficulty.lower()
+            elif answer == "no":
+                print_slow("Okay, then let's-----------\n"
+                           "Wait, what? What do you mean no?\n...\n...\n"
+                           "You're weird\n"
+                           "Anyway. Do you have any experience with RPGs?\n")
+                i += 1
+
+                difficulty = input("Your answer: ")
+                difficulty.lower()
+        i = 0
+        while i == 0:
+            if difficulty == "yes":
+                print_slow("Okay, but how much?\n")
+                answer = input("Your answer: ")
+                answer.lower()
+                if answer == "much":
+                    player[4] = 3
+                    print_slow("Okay, okay, smartass, you'll regret that, but okay.\n")
+                    i += 1
+                elif answer == "not much":
+                    player[4] = 2
+                    print_slow("Going for the middle path, yeah?\n"
+                               "Remember: you are not Gandhi, you will die\n")
+                    i += 1
+                elif answer == "a little":
+                    player[4] = 1
+                    print_slow("Okie dokie, newbie. You\'ll fit right in\n")
+                    i += 1
+            elif difficulty == "no":
+                print_slow("Oh, a true newcomer? How refreshing!\n")
 
 
-def print_slow(str1):
+# TODO Finish character creation from difficulty setting part
+
+
+def print_slow(str1):  # Works exactly as the print function, except it does it slowly
     for letter in str1:
         print(letter, end='')
         time.sleep(.03)
